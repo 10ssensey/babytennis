@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baby Tennis — теннис для детей от 3 лет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   TOKENS
+   ===================================================== */
+:root {
+  --font-display: 'Baloo 2', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+
+  --lime:        #CDEB45;
+  --lime-deep:   #B6D633;
+  --lime-soft:   #EAF6B8;
+  --green:       #14A05A;
+  --green-deep:  #0E7B44;
+  --green-soft:  #DDF3E6;
+  --clay:        #ED7A3C;
+  --clay-soft:   #FCE6D5;
+  --blue:        #2F8FD6;
+  --blue-soft:   #DCEDF9;
+  --sun:         #FFC53A;
+  --sun-soft:    #FFF1CC;
+  --coral:       #FF6B7A;
+  --coral-soft:  #FFE0E3;
+
+  --canvas:      #FCFBF3;
+  --surface-soft:#F5F3E6;
+  --surface-card:#FFFFFF;
+  --surface-strong:#ECE9D7;
+  --hairline:    #E7E4D2;
+  --hairline-strong:#D8D4BE;
+
+  --ink:         #14271C;
+  --body-strong: #283A30;
+  --body:        #46554C;
+  --muted:       #76837A;
+  --muted-soft:  #A4ABA3;
+  --on-lime:     #1B3409;
+
+  --radius-sm:   12px;
+  --radius-md:   16px;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+  --radius-2xl:  36px;
+  --radius-pill: 999px;
+
+  --shadow-sm:   0 2px 8px rgba(20,39,28,.06);
+  --shadow-md:   0 10px 26px rgba(20,39,28,.09);
+  --shadow-lg:   0 20px 48px rgba(20,39,28,.12);
+  --shadow-lime: 0 8px 24px rgba(150,190,40,.40);
+  --shadow-green:0 8px 24px rgba(20,160,90,.32);
+
+  --ease-bounce: cubic-bezier(.34,1.56,.64,1);
+  --ease-out:    cubic-bezier(.22,1,.36,1);
+  --dur: 200ms;
+}
+
+/* =====================================================
+   RESET & BASE
+   ===================================================== */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--canvas); color: var(--body); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: var(--font-body); cursor: pointer; border: none; background: none; }
+
+/* =====================================================
+   LAYOUT
+   ===================================================== */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* =====================================================
+   BALL SVG helper — used via <img> src="data:..."
+   inline SVG elements
+   ===================================================== */
+
+/* =====================================================
+   NAV
+   ===================================================== */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(252,251,243,.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--hairline);
+}
+.nav-in {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  height: 70px; display: flex; align-items: center; gap: 20px;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.nav-logo .ball-icon { width: 36px; height: 36px; }
+.nav-logo .wordmark {
+  font-family: var(--font-display); font-size: 22px; font-weight: 600;
+  letter-spacing: -.4px; color: var(--ink); white-space: nowrap;
+}
+.nav-logo .wordmark span { color: var(--green); }
+.nav-links { display: flex; gap: 2px; margin-left: 12px; }
+.nav-links a {
+  font-size: 15px; font-weight: 600; color: var(--body-strong);
+  padding: 8px 13px; border-radius: var(--radius-pill);
+  transition: background var(--dur); white-space: nowrap;
+}
+.nav-links a:hover { background: var(--surface-strong); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.nav-signin { font-size: 15px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+
+/* hamburger */
+.nav-burger {
+  display: none; flex-direction: column; gap: 5px;
+  width: 40px; height: 40px; align-items: center; justify-content: center;
+  border-radius: var(--radius-md); background: var(--surface-strong); flex-shrink: 0;
+}
+.nav-burger span {
+  display: block; width: 20px; height: 2px;
+  background: var(--ink); border-radius: 2px;
+  transition: all var(--dur);
+}
+
+/* mobile drawer */
+.nav-drawer {
+  display: none;
+  position: fixed; inset: 0; top: 70px; z-index: 99;
+  background: rgba(20,39,28,.3);
+  backdrop-filter: blur(4px);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dur);
+}
+.nav-drawer.open { opacity: 1; pointer-events: all; }
+.nav-drawer-panel {
+  background: var(--canvas); padding: 20px 24px 32px;
+  border-bottom: 1px solid var(--hairline);
+  display: flex; flex-direction: column; gap: 4px;
+  transform: translateY(-8px); transition: transform var(--dur) var(--ease-out);
+}
+.nav-drawer.open .nav-drawer-panel { transform: translateY(0); }
+.nav-drawer a {
+  font-size: 17px; font-weight: 700; color: var(--ink);
+  padding: 13px 4px; border-bottom: 1px solid var(--hairline);
+  display: block;
+}
+.nav-drawer a:last-of-type { border-bottom: none; }
+.nav-drawer .drawer-cta { margin-top: 12px; }
+
+/* =====================================================
+   BUTTONS
+   ===================================================== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-body); font-weight: 700; font-size: 16px;
+  border-radius: var(--radius-md); padding: 13px 24px; min-height: 50px;
+  transition: transform var(--dur) var(--ease-bounce), background var(--dur), box-shadow var(--dur);
+  white-space: nowrap; cursor: pointer; border: none;
+}
+.btn:active { transform: scale(.96); }
+.btn-lime { background: var(--lime); color: var(--on-lime); box-shadow: var(--shadow-lime); }
+.btn-lime:hover { background: var(--lime-deep); }
+.btn-green { background: var(--green); color: #fff; box-shadow: var(--shadow-green); }
+.btn-green:hover { background: var(--green-deep); }
+.btn-outline { background: var(--canvas); color: var(--ink); border: 1.5px solid var(--hairline-strong); }
+.btn-outline:hover { border-color: var(--ink); }
+.btn-sm { min-height: 42px; padding: 10px 18px; font-size: 15px; }
+.btn-block { width: 100%; }
+
+/* =====================================================
+   HERO
+   ===================================================== */
+.hero { padding: 72px 0 88px; }
+.hero-grid {
+  display: grid; grid-template-columns: 1.1fr .9fr;
+  gap: 56px; align-items: center;
+}
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--green-deep);
+  background: var(--green-soft); padding: 7px 14px;
+  border-radius: var(--radius-pill);
+}
+.hero h1 {
+  font-family: var(--font-display); font-size: 62px;
+  line-height: 1.02; letter-spacing: -1.5px; font-weight: 600;
+  color: var(--ink); margin: 20px 0 18px;
+}
+.hero h1 em { font-style: normal; color: var(--green); }
+.hero .lead {
+  font-size: 19px; line-height: 1.65; color: var(--body); max-width: 480px;
+}
+.hero-cta { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+.trust { display: flex; align-items: center; gap: 24px; margin-top: 30px; flex-wrap: wrap; }
+.trust .stars { color: var(--sun); font-size: 18px; letter-spacing: 2px; }
+.trust b { color: var(--ink); }
+.trust .sm { font-size: 13.5px; color: var(--muted); }
+.avatars { display: flex; }
+.avatars span {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 2.5px solid var(--canvas); margin-left: -9px;
+  flex-shrink: 0;
+}
+.avatars span:first-child { margin-left: 0; }
+.trust-item { display: flex; align-items: center; gap: 10px; }
+
+/* hero visual */
+.hero-visual {
+  position: relative; background: var(--lime-soft);
+  border-radius: var(--radius-2xl); aspect-ratio: 1 / 1.05;
+  overflow: hidden; padding: 24px;
+}
+.hero-visual .big-ball {
+  position: absolute; right: -44px; top: -44px;
+  width: 210px; height: 210px; opacity: .85;
+}
+.hero-visual .small-ball {
+  position: absolute; left: 18px; bottom: 90px;
+  width: 80px; height: 80px;
+}
+.floatcard {
+  position: absolute; left: 18px; top: 18px;
+  background: #fff; border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md); padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px; z-index: 3;
+}
+.floatcard .fc-icon {
+  width: 38px; height: 38px; border-radius: 11px;
+  background: var(--green-soft); display: grid; place-items: center;
+}
+.floatcard .fc-t { font-size: 13px; font-weight: 800; color: var(--ink); }
+.floatcard .fc-s { font-size: 12px; color: var(--muted); }
+
+/* hero photo placeholder */
+.hero-photo {
+  position: absolute; left: 24px; right: 24px; bottom: 24px; top: 40%;
+  background: var(--green-soft); border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.hero-photo-inner {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, var(--green-soft) 0%, var(--lime-soft) 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+}
+.hero-photo-inner svg { opacity: .4; }
+.hero-photo-inner span { font-size: 13px; font-weight: 700; color: var(--green-deep); opacity: .7; }
+
+/* =====================================================
+   SECTION BASE
+   ===================================================== */
+.section { padding: 88px 0; }
+.section-soft { background: var(--surface-soft); }
+.section-head { text-align: center; max-width: 640px; margin: 0 auto 52px; }
+.section-head h2 {
+  font-family: var(--font-display); font-size: 44px;
+  line-height: 1.08; letter-spacing: -.8px; font-weight: 600; color: var(--ink);
+}
+.section-head p { font-size: 18px; line-height: 1.65; color: var(--body); margin-top: 12px; }
+
+/* =====================================================
+   PROGRAMS
+   ===================================================== */
+.programs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+.prog-card {
+  border-radius: var(--radius-xl); padding: 28px;
+  position: relative; overflow: hidden;
+  min-height: 360px; display: flex; flex-direction: column;
+  transition: transform var(--dur) var(--ease-out), box-shadow var(--dur);
+}
+.prog-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.prog-card .age-pill {
+  display: inline-flex; align-self: flex-start;
+  font-size: 13px; font-weight: 700; padding: 6px 13px;
+  border-radius: var(--radius-pill); background: rgba(255,255,255,.28);
+}
+.prog-card h3 {
+  font-family: var(--font-display); font-size: 30px;
+  font-weight: 600; letter-spacing: -.5px; margin: 16px 0 8px;
+}
+.prog-card .desc { font-size: 15px; line-height: 1.55; flex: 1; }
+.prog-card .meta { display: flex; flex-direction: column; gap: 7px; margin: 18px 0; font-size: 14px; font-weight: 600; }
+.prog-card .meta-li { display: flex; align-items: center; gap: 8px; }
+.prog-card .price { font-size: 14px; opacity: .9; margin-bottom: 16px; }
+.prog-card .price b { font-size: 22px; font-family: var(--font-display); font-weight: 600; }
+.prog-card .deco-ball {
+  position: absolute; right: -32px; bottom: -32px;
+  width: 130px; height: 130px; border-radius: 50%;
+  background: rgba(255,255,255,.15);
+}
+.prog-light { color: #fff; }
+.prog-dark { color: var(--ink); }
+
+/* =====================================================
+   WHY
+   ===================================================== */
+.why-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 28px; }
+.why-item {}
+.why-item .wi-icon {
+  width: 56px; height: 56px; border-radius: var(--radius-lg);
+  display: grid; place-items: center; margin-bottom: 16px;
+}
+.why-item h4 { font-size: 18px; font-weight: 800; color: var(--ink); margin-bottom: 7px; }
+.why-item p { font-size: 15px; line-height: 1.58; color: var(--body); }
+
+/* =====================================================
+   PRICING
+   ===================================================== */
+.pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; align-items: start; }
+.tier {
+  background: #fff; border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg); padding: 30px;
+  display: flex; flex-direction: column;
+  transition: box-shadow var(--dur);
+}
+.tier:hover { box-shadow: var(--shadow-md); }
+.tier.featured {
+  background: var(--green); border-color: var(--green);
+  color: #fff; box-shadow: var(--shadow-green);
+  transform: translateY(-10px);
+}
+.tier .tier-name {
+  font-size: 13px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--muted);
+}
+.tier.featured .tier-name { color: var(--lime); }
+.tier .tier-price {
+  font-family: var(--font-display); font-size: 42px;
+  font-weight: 600; letter-spacing: -1px; color: var(--ink);
+  margin: 14px 0 4px;
+}
+.tier.featured .tier-price { color: #fff; }
+.tier .tier-unit { font-size: 14px; color: var(--muted); }
+.tier.featured .tier-unit { color: rgba(255,255,255,.75); }
+.tier-feats { list-style: none; margin: 24px 0; display: flex; flex-direction: column; gap: 13px; flex: 1; }
+.tier-feats li { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--body-strong); }
+.tier.featured .tier-feats li { color: rgba(255,255,255,.92); }
+.tier-feats li .chk { flex-shrink: 0; }
+.chk-green { color: var(--green); }
+.chk-lime { color: var(--lime); }
+.badge-featured {
+  align-self: flex-start; background: var(--lime); color: var(--on-lime);
+  font-size: 12px; font-weight: 800; padding: 5px 12px;
+  border-radius: var(--radius-pill); margin-bottom: 14px;
+}
+
+/* =====================================================
+   CTA BAND
+   ===================================================== */
+.cta-band {
+  background: var(--surface-soft); border-radius: var(--radius-2xl);
+  padding: 72px 48px; text-align: center; position: relative; overflow: hidden;
+}
+.cta-band h2 {
+  font-family: var(--font-display); font-size: 46px;
+  line-height: 1.06; letter-spacing: -1px; font-weight: 600;
+  color: var(--ink); max-width: 580px; margin: 0 auto 16px;
+}
+.cta-band p { font-size: 18px; color: var(--body); margin-bottom: 30px; }
+.cta-deco-l {
+  position: absolute; left: -44px; bottom: -44px;
+  width: 170px; height: 170px; opacity: .75;
+}
+.cta-deco-r {
+  position: absolute; right: -30px; top: -30px;
+  width: 120px; height: 120px; opacity: .65;
+}
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+.footer {
+  background: var(--surface-soft); border-top: 1px solid var(--hairline);
+  padding: 64px 0 40px;
+}
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+.footer-logo .wordmark { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--ink); }
+.footer-logo .wordmark span { color: var(--green); }
+.footer-desc { font-size: 14.5px; line-height: 1.65; color: var(--muted); margin-top: 12px; max-width: 240px; }
+.footer h5 {
+  font-size: 12px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .9px; color: var(--ink); margin-bottom: 14px;
+}
+.footer ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer ul a { font-size: 14.5px; color: var(--body); transition: color var(--dur); }
+.footer ul a:hover { color: var(--green); }
+.footer-bottom {
+  max-width: 1200px; margin: 40px auto 0; padding: 22px 24px 0;
+  border-top: 1px solid var(--hairline);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px; color: var(--muted); flex-wrap: wrap; gap: 8px;
+}
+
+/* =====================================================
+   MODAL
+   ===================================================== */
+.modal-back {
+  position: fixed; inset: 0; background: rgba(20,39,28,.45);
+  backdrop-filter: blur(6px); display: grid; place-items: center;
+  z-index: 200; padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dur);
+}
+.modal-back.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--canvas); border-radius: var(--radius-xl);
+  padding: 36px; width: 100%; max-width: 440px;
+  box-shadow: var(--shadow-lg);
+  transform: scale(.92) translateY(12px);
+  transition: transform 300ms var(--ease-bounce);
+}
+.modal-back.open .modal { transform: scale(1) translateY(0); }
+.modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; }
+.modal h3 { font-family: var(--font-display); font-size: 28px; font-weight: 600; letter-spacing: -.5px; color: var(--ink); }
+.modal-close {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--surface-strong); display: grid; place-items: center;
+  color: var(--ink); flex-shrink: 0; cursor: pointer; border: none;
+  font-size: 18px; line-height: 1;
+}
+.modal .sub { font-size: 15px; color: var(--body); margin-bottom: 24px; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 7px; }
+.input {
+  width: 100%; font-family: var(--font-body); font-size: 16px; color: var(--ink);
+  background: #fff; border: 1.5px solid var(--hairline-strong);
+  border-radius: var(--radius-md); padding: 13px 16px; min-height: 50px;
+  transition: border var(--dur), box-shadow var(--dur); outline: none;
+}
+.input:focus { border-color: var(--green); box-shadow: 0 0 0 4px var(--green-soft); }
+.age-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  flex: 1; min-width: 80px; text-align: center; padding: 11px 0;
+  border-radius: var(--radius-md); border: 1.5px solid var(--hairline-strong);
+  font-weight: 700; font-size: 14px; color: var(--body-strong);
+  transition: all var(--dur); cursor: pointer; background: none;
+}
+.chip.on { background: var(--green); border-color: var(--green); color: #fff; }
+.modal-success { text-align: center; padding: 16px 0; }
+.modal-success .success-icon {
+  width: 72px; height: 72px; background: var(--green-soft);
+  border-radius: 50%; display: grid; place-items: center;
+  margin: 0 auto 18px; font-size: 32px;
+}
+.modal-success h3 { margin-bottom: 8px; }
+.modal-success p { font-size: 16px; color: var(--body); }
+
+/* =====================================================
+   INLINE SVG BALL
+   ===================================================== */
+.ball-svg { display: block; }
+
+/* =====================================================
+   RESPONSIVE — TABLET ≤ 900px
+   ===================================================== */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-signin { display: none; }
+  .nav-right .btn { display: none; }
+  .nav-burger { display: flex; }
+  .nav-drawer { display: block; }
+
+  .hero { padding: 44px 0 60px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+  .hero h1 { font-size: 46px; letter-spacing: -1px; }
+  .hero .lead { font-size: 17px; max-width: 100%; }
+  .hero-visual { aspect-ratio: 4/3; max-width: 540px; }
+
+  .programs-grid { grid-template-columns: repeat(2,1fr); }
+
+  .why-grid { grid-template-columns: repeat(2,1fr); }
+
+  .section { padding: 64px 0; }
+  .section-head h2 { font-size: 36px; }
+  .section-head p { font-size: 16px; }
+  .section-head { margin-bottom: 40px; }
+
+  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+  .tier.featured { transform: none; }
+
+  .cta-band { padding: 52px 36px; }
+  .cta-band h2 { font-size: 36px; }
+
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+/* =====================================================
+   RESPONSIVE — MOBILE ≤ 560px
+   ===================================================== */
+@media (max-width: 560px) {
+  .wrap { padding: 0 16px; }
+
+  .nav-in { padding: 0 16px; height: 60px; }
+  .nav-logo .wordmark { font-size: 18px; }
+  .nav-logo .ball-icon { width: 30px; height: 30px; }
+
+  .hero { padding: 28px 0 44px; }
+  .hero h1 { font-size: 34px; letter-spacing: -.7px; margin: 14px 0 12px; }
+  .hero .lead { font-size: 16px; }
+  .hero-cta { flex-direction: column; }
+  .hero-cta .btn { width: 100%; justify-content: center; }
+  .hero-visual { aspect-ratio: 1/.9; }
+  .hero-visual .big-ball { width: 130px; height: 130px; right: -30px; top: -30px; }
+  .trust { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  .section { padding: 48px 0; }
+  .section-head { margin-bottom: 28px; }
+  .section-head h2 { font-size: 28px; }
+  .section-head p { font-size: 15px; }
+
+  .programs-grid { grid-template-columns: 1fr; gap: 14px; }
+  .prog-card { min-height: unset; padding: 22px; }
+  .prog-card h3 { font-size: 24px; }
+
+  .why-grid { grid-template-columns: 1fr; gap: 20px; }
+
+  .pricing-grid { max-width: 100%; }
+  .tier { padding: 22px; }
+
+  .cta-band { padding: 36px 20px; border-radius: var(--radius-xl); }
+  .cta-band h2 { font-size: 26px; }
+  .cta-band p { font-size: 15px; }
+
+  .footer { padding: 44px 0 28px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-desc { max-width: 100%; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+
+  .modal { padding: 24px 18px; }
+  .modal h3 { font-size: 22px; }
+  .age-chips { gap: 6px; }
+  .chip { min-width: 70px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="top">
+  <div class="nav-in">
+    <a class="nav-logo" href="#top">
+      <svg class="ball-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/>
+        <path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+      </svg>
+      <span class="wordmark">Baby<span> Tennis</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#programs">Программы</a>
+      <a href="#why">Почему мы</a>
+      <a href="#pricing">Цены</a>
+      <a href="#footer">Контакты</a>
+    </div>
+    <div class="nav-right">
+      <a class="nav-signin" href="#">Войти</a>
+      <button class="btn btn-lime btn-sm" onclick="openModal()">Записаться</button>
+      <button class="nav-burger" onclick="toggleDrawer()" id="burger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- mobile drawer -->
+<div class="nav-drawer" id="drawer" onclick="closeDrawer(event)">
+  <div class="nav-drawer-panel">
+    <a href="#programs" onclick="closeDrawer()">Программы</a>
+    <a href="#why" onclick="closeDrawer()">Почему мы</a>
+    <a href="#pricing" onclick="closeDrawer()">Цены</a>
+    <a href="#footer" onclick="closeDrawer()">Контакты</a>
+    <button class="btn btn-lime btn-block drawer-cta" onclick="openModal(); closeDrawer();">Записаться на пробное</button>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <!-- left -->
+    <div>
+      <span class="eyebrow">
+        <svg width="16" height="16" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/><path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/><path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/></svg>
+        Теннис для детей от 3 лет
+      </span>
+      <h1>Большой теннис для <em>самых маленьких</em></h1>
+      <p class="lead">Учимся играть через движение, игру и много улыбок. Маленькие группы, заботливые тренеры и первая ракетка уже в 3 года.</p>
+      <div class="hero-cta">
+        <button class="btn btn-lime" onclick="openModal()">Записаться на пробное</button>
+        <a class="btn btn-outline" href="#programs">Посмотреть программы</a>
+      </div>
+      <div class="trust">
+        <div>
+          <div class="stars">★★★★★</div>
+          <div class="sm"><b>4.9</b> · 280+ отзывов</div>
+        </div>
+        <div class="trust-item">
+          <div class="avatars">
+            <span style="background:var(--clay)"></span>
+            <span style="background:var(--blue)"></span>
+            <span style="background:var(--sun)"></span>
+            <span style="background:var(--coral)"></span>
+          </div>
+          <div class="sm"><b>900+</b> семей<br>уже с нами</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- right visual -->
+    <div class="hero-visual">
+      <svg class="big-ball" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/>
+        <path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+      </svg>
+      <svg class="small-ball" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/>
+        <path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+        <path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+
+      <div class="floatcard">
+        <div class="fc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green-deep)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.2 20a7 7 0 0 1 13.6 0"/></svg>
+        </div>
+        <div>
+          <div class="fc-t">Группы до 6 детей</div>
+          <div class="fc-s">Каждому хватит внимания</div>
+        </div>
+      </div>
+
+      <div class="hero-photo">
+        <div class="hero-photo-inner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+          <span>Фото: дети на корте</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PROGRAMS ============ -->
+<section class="section" id="programs">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Программы по возрасту</h2>
+      <p>Каждая группа — свой ритм, своя нагрузка и свой цвет. Подберём подходящую для вашего ребёнка.</p>
+    </div>
+    <div class="programs-grid">
+
+      <div class="prog-card prog-light" style="background:var(--clay)">
+        <span class="age-pill">3–5 лет</span>
+        <h3>Первый мяч</h3>
+        <p class="desc">Знакомство с ракеткой через игры, ловкость и координацию. Без стресса и нагрузок.</p>
+        <div class="meta">
+          <span class="meta-li">
+            <svg width="15" height="15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/><path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/><path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/></svg>
+            2 занятия в неделю
+          </span>
+          <span class="meta-li">
+            <svg width="15" height="15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/><path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/><path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/></svg>
+            Группы до 6 детей
+          </span>
+          <span class="meta-li">
+            <svg width="15" height="15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/><path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/><path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/></svg>
+            По 45 минут
+          </span>
+        </div>
+        <div class="price">от <b>9 000 ₸</b> / мес</div>
+        <button class="btn btn-outline btn-sm" onclick="openModal()" style="background:rgba(255,255,255,.9);border-color:transparent;">Записаться на пробное</button>
+        <div class="deco-ball"></div>
+      </div>
+
+      <div class="prog-card prog-dark" style="background:var(--sun)">
+        <span class="age-pill">6–8 лет</span>
+        <h3>Ракетка</h3>
+        <p class="desc">Первые удары, подачи и любимая игра. Учимся технике в радость и с азартом.</p>
+        <div class="meta">
+          <span class="meta-li">
+            <svg width="15" height="15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/><path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/><path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/></svg>
+            2–3 занятия в неделю
+          </span>
+          <span class="meta-li">
+            <svg width="15" height="15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/><path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/><path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/></svg>
+            Группы до 6 детей
+          </span>
+          <span class="meta-li">
+            <svg width="15" height="15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/><path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/><path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/></svg>
+            По 60 минут
+          </span>
+        </div>
+        <div class="price">от <b>12 000 ₸</b> / мес</div>
+        <button class="btn btn-green btn-sm" onclick="openModal()">Записаться на пробное</button>
+        <div class="deco-ball"></div>
+      </div>
+
+      <div class="prog-card prog-light" style="background:var(--blue)">
+        <span class="age-pill">9–12 лет</span>
+        <h3>Корт</h3>
+        <p class="desc">Полноценная игра, тактика и первые турниры. Для тех, кто влюбился в теннис.</p>
+        <div class="meta">
+          <span class="meta-li">
+            <svg width="15" height="15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/><path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/><path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/></svg>
+            3 занятия в неделю
+          </span>
+          <span class="meta-li">
+            <svg width="15" height="15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/><path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/><path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/></svg>
+            Мини-группы и индивид.
+          </span>
+          <span class="meta-li">
+            <svg width="15" height="15" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/><path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/><path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="7" stroke-linecap="round"/></svg>
+            По 60–90 минут
+          </span>
+        </div>
+        <div class="price">от <b>15 000 ₸</b> / мес</div>
+        <button class="btn btn-outline btn-sm" onclick="openModal()" style="background:rgba(255,255,255,.9);border-color:transparent;">Записаться на пробное</button>
+        <div class="deco-ball"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY ============ -->
+<section class="section section-soft" id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Почему родители выбирают нас</h2>
+      <p>Мы создаём место, куда хочется возвращаться — и детям, и родителям.</p>
+    </div>
+    <div class="why-grid">
+
+      <div class="why-item">
+        <div class="wi-icon" style="background:var(--green-soft);color:var(--green-deep)">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h4>Безопасно</h4>
+        <p>Сертифицированные тренеры с детским образованием и мягкий инвентарь для малышей.</p>
+      </div>
+
+      <div class="why-item">
+        <div class="wi-icon" style="background:var(--clay-soft);color:var(--clay)">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h4>Маленькие группы</h4>
+        <p>До 6 детей в группе — каждому хватает внимания и времени на корте.</p>
+      </div>
+
+      <div class="why-item">
+        <div class="wi-icon" style="background:var(--blue-soft);color:var(--blue)">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg>
+        </div>
+        <h4>Гибкий график</h4>
+        <p>Переносите и отменяйте занятия в один клик. Удобно для занятых семей.</p>
+      </div>
+
+      <div class="why-item">
+        <div class="wi-icon" style="background:var(--sun-soft);color:#b8841a">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </div>
+        <h4>Через игру</h4>
+        <p>Методика, в которой дети учатся теннису играя — и просятся на тренировку сами.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Простые и честные цены</h2>
+      <p>Без скрытых платежей. Первое пробное занятие — бесплатно.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <div class="tier">
+        <span class="tier-name">Разовое</span>
+        <div class="tier-price">4 000 ₸</div>
+        <div class="tier-unit">/ занятие</div>
+        <ul class="tier-feats">
+          <li><span class="chk chk-green">✓</span> Одно занятие в группе</li>
+          <li><span class="chk chk-green">✓</span> Без абонемента</li>
+          <li><span class="chk chk-green">✓</span> Инвентарь включён</li>
+        </ul>
+        <button class="btn btn-outline btn-block" onclick="openModal()">Выбрать</button>
+      </div>
+
+      <div class="tier featured">
+        <span class="badge-featured">🎾 Популярное</span>
+        <span class="tier-name">Абонемент</span>
+        <div class="tier-price">12 000 ₸</div>
+        <div class="tier-unit">/ месяц</div>
+        <ul class="tier-feats">
+          <li><span class="chk chk-lime">✓</span> 8 занятий в месяц</li>
+          <li><span class="chk chk-lime">✓</span> Группа до 6 детей</li>
+          <li><span class="chk chk-lime">✓</span> Перенос занятий</li>
+          <li><span class="chk chk-lime">✓</span> Прогресс в приложении</li>
+        </ul>
+        <button class="btn btn-lime btn-block" onclick="openModal()">Записаться на пробное</button>
+      </div>
+
+      <div class="tier">
+        <span class="tier-name">Индивидуально</span>
+        <div class="tier-price">8 000 ₸</div>
+        <div class="tier-unit">/ занятие</div>
+        <ul class="tier-feats">
+          <li><span class="chk chk-green">✓</span> Один на один с тренером</li>
+          <li><span class="chk chk-green">✓</span> Гибкое расписание</li>
+          <li><span class="chk chk-green">✓</span> Персональный план</li>
+        </ul>
+        <button class="btn btn-outline btn-block" onclick="openModal()">Выбрать</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="cta-band">
+      <svg class="cta-deco-l" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/>
+        <path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+      </svg>
+      <svg class="cta-deco-r" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="#CDEB45" stroke="#B6D633" stroke-width="3"/>
+        <path d="M20 26 Q50 50 20 74" fill="none" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M80 26 Q50 50 80 74" fill="none" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+      </svg>
+      <h2>Первое занятие — бесплатно</h2>
+      <p>Запишите ребёнка на пробное и посмотрите, как загорятся его глаза.</p>
+      <button class="btn btn-green" onclick="openModal()" style="margin:0 auto">Записаться на пробное</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" id="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <div class="footer-logo">
+        <span class="wordmark">Baby<span> Tennis</span></span>
+      </div>
+      <p class="footer-desc">Программа большого тенниса для детей от 3 лет. Алматы и Астана.</p>
+    </div>
+    <div>
+      <h5>Программы</h5>
+      <ul>
+        <li><a href="#programs">Первый мяч · 3–5</a></li>
+        <li><a href="#programs">Ракетка · 6–8</a></li>
+        <li><a href="#programs">Корт · 9–12</a></li>
+        <li><a href="#pricing">Индивидуально</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Клуб</h5>
+      <ul>
+        <li><a href="#why">О нас</a></li>
+        <li><a href="#">Тренеры</a></li>
+        <li><a href="#">Расписание</a></li>
+        <li><a href="#">Отзывы</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Контакты</h5>
+      <ul>
+        <li><a href="tel:+77010000000">+7 701 000 00 00</a></li>
+        <li><a href="#">Алматы, ул. Абая 1</a></li>
+        <li><a href="#">Астана, пр. Кабанбай 2</a></li>
+        <li><a href="#">Instagram · Telegram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Baby Tennis</span>
+    <span>Сделано с заботой о юных чемпионах 🎾</span>
+  </div>
+</footer>
+
+<!-- ============ BOOKING MODAL ============ -->
+<div class="modal-back" id="modal" onclick="handleBackdrop(event)">
+  <div class="modal" id="modal-box">
+
+    <div id="modal-form">
+      <div class="modal-header">
+        <h3>Записаться на пробное</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <p class="sub">Первое занятие бесплатно. Выберите группу и мы свяжемся с вами.</p>
+
+      <div class="field">
+        <label>Имя родителя</label>
+        <input class="input" type="text" placeholder="Айгерим Нурланова" id="inp-name">
+      </div>
+
+      <div class="field">
+        <label>Возраст ребёнка</label>
+        <div class="age-chips">
+          <button class="chip" onclick="pickAge(this)">3–5 лет</button>
+          <button class="chip" onclick="pickAge(this)">6–8 лет</button>
+          <button class="chip" onclick="pickAge(this)">9–12 лет</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Номер телефона</label>
+        <input class="input" type="tel" placeholder="+7 700 000 00 00" id="inp-phone">
+      </div>
+
+      <button class="btn btn-lime btn-block" style="margin-top:8px" id="submit-btn" onclick="submitModal()">Отправить заявку</button>
+      <div id="modal-error" style="display:none;margin-top:10px;font-size:14px;color:var(--error,#E8503C);font-weight:600;text-align:center;"></div>
+    </div>
+
+    <div id="modal-success" style="display:none">
+      <div class="modal-success">
+        <div class="success-icon">🎾</div>
+        <h3 style="font-family:var(--font-display);font-size:26px;color:var(--ink);margin-bottom:8px">Заявка принята!</h3>
+        <p>Мы позвоним вам в течение часа и согласуем время пробного занятия.</p>
+        <button class="btn btn-green" style="margin:24px auto 0" onclick="closeModal()">Отлично!</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  /* ── Telegram config ── */
+  const TELEGRAM_BOT_TOKEN = '8819487544:AAGYK_3MsWvV2NyhOAw2YNmJ7oYCBCvVpJ4';
+  const TELEGRAM_CHAT_ID   = '7339667637';
+
+  /* ── nav drawer ── */
+  function toggleDrawer() {
+    document.getElementById('drawer').classList.toggle('open');
+  }
+  function closeDrawer(e) {
+    if (!e || e.target === document.getElementById('drawer')) {
+      document.getElementById('drawer').classList.remove('open');
+    }
+  }
+
+  /* ── modal ── */
+  function openModal() {
+    document.getElementById('modal').classList.add('open');
+    document.getElementById('modal-form').style.display = '';
+    document.getElementById('modal-success').style.display = 'none';
+    document.getElementById('modal-error').style.display = 'none';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function handleBackdrop(e) {
+    if (e.target === document.getElementById('modal')) closeModal();
+  }
+  function pickAge(btn) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+    btn.classList.add('on');
+  }
+
+  /* ── submit → Telegram ── */
+  async function submitModal() {
+    const name  = document.getElementById('inp-name').value.trim();
+    const phone = document.getElementById('inp-phone').value.trim();
+    const age   = document.querySelector('.chip.on')?.textContent || '—';
+    const errEl = document.getElementById('modal-error');
+    const btn   = document.getElementById('submit-btn');
+
+    /* validation */
+    if (!name) { showError('Пожалуйста, введите имя'); return; }
+    if (!phone) { showError('Пожалуйста, введите номер телефона'); return; }
+    errEl.style.display = 'none';
+
+    /* loading state */
+    btn.disabled = true;
+    btn.textContent = 'Отправляем…';
+
+    const text =
+      `🎾 *Новая заявка — Baby Tennis*\n\n` +
+      `👤 *Имя:* ${name}\n` +
+      `📞 *Телефон:* ${phone}\n` +
+      `🏷 *Возраст ребёнка:* ${age}\n` +
+      `🕐 *Время:* ${new Date().toLocaleString('ru-KZ', { timeZone: 'Asia/Almaty' })}`;
+
+    try {
+      const res = await fetch(
+        `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text,
+            parse_mode: 'Markdown',
+          }),
+        }
+      );
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.description || 'Telegram error');
+
+      /* success */
+      document.getElementById('modal-form').style.display = 'none';
+      document.getElementById('modal-success').style.display = '';
+    } catch (err) {
+      showError('Ошибка отправки. Позвоните нам: +7 701 000 00 00');
+      console.error(err);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Отправить заявку';
+    }
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('modal-error');
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  /* keyboard close */
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
