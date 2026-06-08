@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Политика конфиденциальности — Baby Tennis</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --font-display: 'Fredoka', 'Nunito', system-ui, sans-serif;
+      --font-body: 'Nunito', system-ui, sans-serif;
+      --lime: #CDEB45;
+      --lime-deep: #B6D633;
+      --lime-soft: #EAF6B8;
+      --green: #14A05A;
+      --green-deep: #0E7B44;
+      --green-soft: #DDF3E6;
+      --canvas: #FCFBF3;
+      --surface-soft: #F5F3E6;
+      --surface-strong: #ECE9D7;
+      --hairline: #E7E4D2;
+      --hairline-strong: #D8D4BE;
+      --ink: #14271C;
+      --body-strong: #283A30;
+      --body: #46554C;
+      --muted: #76837A;
+      --muted-soft: #A4ABA3;
+      --on-lime: #1B3409;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-pill: 999px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--canvas); color: var(--body); -webkit-font-smoothing: antialiased; }
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ---- NAV ---- */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(252,251,243,.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--hairline);
+    }
+    .nav-in {
+      max-width: 860px; margin: 0 auto; padding: 0 24px;
+      height: 68px; display: flex; align-items: center; gap: 16px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-ball {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--lime); display: grid; place-items: center;
+      font-size: 18px; line-height: 1;
+    }
+    .logo-name {
+      font-family: var(--font-display); font-size: 21px; font-weight: 600;
+      letter-spacing: -.4px; color: var(--ink);
+    }
+    .logo-name span { color: var(--green); }
+    .nav-back {
+      margin-left: auto; font-size: 14px; font-weight: 700;
+      color: var(--body-strong); padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      background: var(--surface-strong);
+      transition: background .15s;
+    }
+    .nav-back:hover { background: var(--hairline-strong); text-decoration: none; }
+
+    /* ---- HERO BAND ---- */
+    .hero {
+      background: var(--green);
+      padding: 52px 24px 48px;
+      text-align: center;
+    }
+    .hero .eyebrow {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 12px; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--lime);
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-family: var(--font-display); font-size: 40px; font-weight: 600;
+      letter-spacing: -.8px; color: #fff; line-height: 1.1;
+    }
+    .hero .meta {
+      margin-top: 14px; font-size: 14px; color: rgba(255,255,255,.65);
+    }
+
+    /* ---- LAYOUT ---- */
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* ---- TOC ---- */
+    .toc-card {
+      background: var(--surface-soft);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-xl);
+      padding: 28px 32px;
+      margin: 40px 0 0;
+    }
+    .toc-card h2 {
+      font-family: var(--font-display); font-size: 18px; font-weight: 600;
+      color: var(--ink); margin-bottom: 16px;
+    }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .toc-list li { display: flex; align-items: center; gap: 10px; }
+    .toc-num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--green-soft); color: var(--green);
+      font-size: 12px; font-weight: 800;
+      display: grid; place-items: center; flex: none;
+    }
+    .toc-list a { font-size: 15px; font-weight: 600; color: var(--body-strong); }
+    .toc-list a:hover { color: var(--green); text-decoration: none; }
+
+    /* ---- CONTENT ---- */
+    .content { padding: 48px 0 80px; }
+
+    .section {
+      background: #fff;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-xl);
+      padding: 32px 36px;
+      margin-bottom: 20px;
+      scroll-margin-top: 88px;
+    }
+
+    .section-num {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 10px;
+    }
+    .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--lime); display: inline-block;
+    }
+
+    .section h2 {
+      font-family: var(--font-display); font-size: 24px; font-weight: 600;
+      color: var(--ink); letter-spacing: -.3px; margin-bottom: 18px;
+    }
+
+    .section p {
+      font-size: 15.5px; line-height: 1.7; color: var(--body);
+      margin-bottom: 14px;
+    }
+    .section p:last-child { margin-bottom: 0; }
+
+    .section ul, .section ol {
+      margin: 12px 0 14px 0; padding-left: 0;
+      list-style: none; display: flex; flex-direction: column; gap: 9px;
+    }
+    .section ul li, .section ol li {
+      font-size: 15.5px; line-height: 1.65; color: var(--body);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .section ul li::before {
+      content: ''; display: block; width: 7px; height: 7px;
+      border-radius: 50%; background: var(--green);
+      flex: none; margin-top: 8px;
+    }
+    .section ol { counter-reset: ol-counter; }
+    .section ol li { counter-increment: ol-counter; }
+    .section ol li::before {
+      content: counter(ol-counter);
+      display: grid; place-items: center;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--lime-soft); color: var(--on-lime);
+      font-size: 12px; font-weight: 800; flex: none; margin-top: 3px;
+    }
+
+    .section strong { color: var(--ink); font-weight: 700; }
+
+    /* info block */
+    .info-box {
+      background: var(--green-soft);
+      border-left: 3px solid var(--green);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 16px 20px; margin: 18px 0;
+      font-size: 15px; line-height: 1.6; color: var(--body-strong);
+    }
+
+    /* table */
+    .data-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14.5px; }
+    .data-table th {
+      text-align: left; padding: 11px 14px;
+      background: var(--surface-soft);
+      color: var(--ink); font-weight: 800;
+      border-bottom: 2px solid var(--hairline-strong);
+      font-size: 13px; letter-spacing: .3px;
+    }
+    .data-table td { padding: 11px 14px; border-bottom: 1px solid var(--hairline); color: var(--body); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--canvas); }
+
+    /* contact card */
+    .contact-card {
+      background: var(--lime-soft);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      margin-top: 18px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .contact-card .row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 15px; color: var(--body-strong);
+    }
+    .contact-card .ic {
+      width: 32px; height: 32px; border-radius: 10px;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center; font-size: 15px; flex: none;
+    }
+    .contact-card strong { color: var(--ink); }
+
+    /* ---- FOOTER ---- */
+    footer {
+      background: var(--surface-soft);
+      border-top: 1px solid var(--hairline);
+      padding: 36px 24px;
+      text-align: center;
+    }
+    footer .f-logo {
+      font-family: var(--font-display); font-size: 19px; font-weight: 600;
+      color: var(--ink); margin-bottom: 10px;
+    }
+    footer .f-logo span { color: var(--green); }
+    footer p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    footer .f-links {
+      display: flex; gap: 20px; justify-content: center;
+      margin-top: 16px; flex-wrap: wrap;
+    }
+    footer .f-links a { font-size: 13px; color: var(--muted); font-weight: 600; }
+    footer .f-links a:hover { color: var(--green); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .section { padding: 24px 20px; }
+      .hero h1 { font-size: 30px; }
+      .toc-card { padding: 22px 20px; }
+      .data-table { font-size: 13px; }
+      .data-table th, .data-table td { padding: 9px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-in">
+    <a class="logo" href="index.html">
+      <div class="logo-ball">🎾</div>
+      <span class="logo-name">Baby <span>Tennis</span></span>
+    </a>
+    <a class="nav-back" href="index.html">← На главную</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow"><span class="dot"></span> Правовые документы</div>
+  <h1>Политика конфиденциальности</h1>
+  <div class="meta">Последнее обновление: 8 июня 2026 г.</div>
+</div>
+
+<div class="wrap">
+
+  <!-- TOC -->
+  <div class="toc-card">
+    <h2>Содержание</h2>
+    <ul class="toc-list">
+      <li><span class="toc-num">1</span><a href="#s1">Кто мы и как с нами связаться</a></li>
+      <li><span class="toc-num">2</span><a href="#s2">Какие данные мы собираем</a></li>
+      <li><span class="toc-num">3</span><a href="#s3">Как и зачем мы используем данные</a></li>
+      <li><span class="toc-num">4</span><a href="#s4">Основания для обработки</a></li>
+      <li><span class="toc-num">5</span><a href="#s5">Передача данных третьим лицам</a></li>
+      <li><span class="toc-num">6</span><a href="#s6">Сроки хранения данных</a></li>
+      <li><span class="toc-num">7</span><a href="#s7">Ваши права</a></li>
+      <li><span class="toc-num">8</span><a href="#s8">Защита данных детей</a></li>
+      <li><span class="toc-num">9</span><a href="#s9">Cookie и аналитика</a></li>
+      <li><span class="toc-num">10</span><a href="#s10">Изменения политики</a></li>
+    </ul>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- 1 -->
+    <div class="section" id="s1">
+      <div class="section-num"><span class="dot"></span> Раздел 1</div>
+      <h2>Кто мы и как с нами связаться</h2>
+      <p>
+        Настоящая Политика конфиденциальности описывает, как <strong>Baby Tennis</strong>
+        (далее — «мы», «наш», «Клуб») собирает, использует и защищает персональные данные
+        посетителей сайта и пользователей мобильного приложения.
+      </p>
+      <p>
+        Оператором персональных данных является ТОО «Беби Теннис», зарегистрированное
+        и действующее в соответствии с законодательством Республики Казахстан.
+      </p>
+      <div class="contact-card">
+        <div class="row"><span class="ic">✉️</span> <span>E-mail: <strong><a href="mailto:privacy@babytennis.kz">privacy@babytennis.kz</a></strong></span></div>
+        <div class="row"><span class="ic">📞</span> <span>Телефон: <strong><a href="tel:+77010000000">+7 701 000 00 00</a></strong></span></div>
+        <div class="row"><span class="ic">📍</span> <span>Алматы, ул. Абая 1 · Астана, пр. Кабанбай батыра 2</span></div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="section" id="s2">
+      <div class="section-num"><span class="dot"></span> Раздел 2</div>
+      <h2>Какие данные мы собираем</h2>
+      <p>В зависимости от того, как вы взаимодействуете с нами, мы можем собирать следующие категории данных:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Категория</th>
+            <th>Конкретные данные</th>
+            <th>Откуда получаем</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Контактные данные</strong></td>
+            <td>Имя родителя, номер телефона, e-mail</td>
+            <td>Форма записи на сайте, приложение</td>
+          </tr>
+          <tr>
+            <td><strong>Данные о ребёнке</strong></td>
+            <td>Имя ребёнка, возраст, группа</td>
+            <td>Форма записи, личный кабинет</td>
+          </tr>
+          <tr>
+            <td><strong>Платёжные данные</strong></td>
+            <td>Последние 4 цифры карты, история платежей</td>
+            <td>Платёжный провайдер (мы не храним полные реквизиты)</td>
+          </tr>
+          <tr>
+            <td><strong>Технические данные</strong></td>
+            <td>IP-адрес, тип браузера/ОС, страницы посещений, время сессии</td>
+            <td>Автоматически при посещении сайта</td>
+          </tr>
+          <tr>
+            <td><strong>Данные приложения</strong></td>
+            <td>Расписание, посещаемость, прогресс</td>
+            <td>Мобильное приложение Baby Tennis</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Мы не собираем чувствительные категории данных (состояние здоровья, биометрия, данные банковских счётов в полном объёме).</p>
+    </div>
+
+    <!-- 3 -->
+    <div class="section" id="s3">
+      <div class="section-num"><span class="dot"></span> Раздел 3</div>
+      <h2>Как и зачем мы используем данные</h2>
+      <ul>
+        <li>Обработка заявки на пробное или регулярное занятие — связь с вами, подбор группы, подтверждение записи.</li>
+        <li>Выставление счётов и приём оплаты за абонементы и разовые занятия.</li>
+        <li>Ведение расписания, учёт посещаемости и отображение прогресса ребёнка в приложении.</li>
+        <li>Отправка уведомлений об изменениях расписания, напоминаний и новостей Клуба — только с вашего согласия.</li>
+        <li>Улучшение работы сайта и приложения на основе агрегированной аналитики.</li>
+        <li>Соблюдение требований законодательства Республики Казахстан.</li>
+      </ul>
+      <div class="info-box">
+        Мы <strong>не продаём</strong> ваши данные третьим лицам и не используем их для рекламных целей без вашего явного согласия.
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="section" id="s4">
+      <div class="section-num"><span class="dot"></span> Раздел 4</div>
+      <h2>Основания для обработки</h2>
+      <p>Обработка персональных данных осуществляется на следующих основаниях в соответствии с Законом РК «О персональных данных и их защите» (№ 94-V от 21.05.2013):</p>
+      <ol>
+        <li><strong>Согласие субъекта.</strong> При заполнении формы записи вы явно соглашаетесь с настоящей политикой.</li>
+        <li><strong>Исполнение договора.</strong> Обработка данных необходима для оказания услуг (проведения занятий, выставления счётов, ведения расписания).</li>
+        <li><strong>Законный интерес.</strong> Обеспечение безопасности сервисов, предотвращение мошенничества, улучшение качества услуг.</li>
+        <li><strong>Юридическая обязанность.</strong> Хранение бухгалтерских и иных документов в соответствии с требованиями законодательства.</li>
+      </ol>
+    </div>
+
+    <!-- 5 -->
+    <div class="section" id="s5">
+      <div class="section-num"><span class="dot"></span> Раздел 5</div>
+      <h2>Передача данных третьим лицам</h2>
+      <p>Мы можем передавать данные следующим категориям получателей:</p>
+      <ul>
+        <li><strong>Платёжные провайдеры</strong> — для проведения транзакций (например, Kaspi Pay, CloudPayments). Они обрабатывают данные в соответствии со своими политиками и стандартами PCI DSS.</li>
+        <li><strong>Сервисы SMS/push-уведомлений</strong> — для отправки напоминаний о занятиях.</li>
+        <li><strong>Аналитические сервисы</strong> — агрегированные, обезличенные данные о поведении пользователей на сайте.</li>
+        <li><strong>Государственные органы</strong> — по законному запросу или в случаях, предусмотренных законодательством РК.</li>
+      </ul>
+      <p>Все партнёры обязаны соблюдать конфиденциальность и обрабатывать данные исключительно в целях, для которых они были переданы.</p>
+    </div>
+
+    <!-- 6 -->
+    <div class="section" id="s6">
+      <div class="section-num"><span class="dot"></span> Раздел 6</div>
+      <h2>Сроки хранения данных</h2>
+      <table class="data-table">
+        <thead>
+          <tr><th>Тип данных</th><th>Срок хранения</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Данные активного клиента</td><td>Весь период оказания услуг + 3 года после окончания</td></tr>
+          <tr><td>Финансовые документы</td><td>5 лет (требование налогового законодательства РК)</td></tr>
+          <tr><td>Заявки без заключения договора</td><td>6 месяцев с момента подачи</td></tr>
+          <tr><td>Технические логи</td><td>90 дней</td></tr>
+          <tr><td>Cookie и аналитика</td><td>До 24 месяцев</td></tr>
+        </tbody>
+      </table>
+      <p>По истечении срока хранения данные надёжно удаляются или обезличиваются.</p>
+    </div>
+
+    <!-- 7 -->
+    <div class="section" id="s7">
+      <div class="section-num"><span class="dot"></span> Раздел 7</div>
+      <h2>Ваши права</h2>
+      <p>В соответствии с законодательством РК вы имеете право:</p>
+      <ul>
+        <li><strong>Получить информацию</strong> о том, какие ваши данные мы обрабатываем и в каких целях.</li>
+        <li><strong>Получить копию</strong> ваших персональных данных в машиночитаемом формате.</li>
+        <li><strong>Исправить</strong> неточные или устаревшие данные.</li>
+        <li><strong>Удалить</strong> данные («право на забвение») в случаях, когда обработка более не является необходимой.</li>
+        <li><strong>Отозвать согласие</strong> на обработку в любой момент (не влияет на законность обработки до отзыва).</li>
+        <li><strong>Ограничить или возразить</strong> против обработки в определённых случаях.</li>
+        <li><strong>Подать жалобу</strong> в уполномоченный орган по защите персональных данных РК.</li>
+      </ul>
+      <div class="info-box">
+        Для реализации любого из прав направьте запрос на <a href="mailto:privacy@babytennis.kz">privacy@babytennis.kz</a>. Мы ответим в течение <strong>10 рабочих дней</strong>.
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="section" id="s8">
+      <div class="section-num"><span class="dot"></span> Раздел 8</div>
+      <h2>Защита данных детей</h2>
+      <p>
+        Baby Tennis работает с детьми от 3 лет. Мы понимаем, что данные о детях
+        требуют особой осторожности, и придерживаемся следующих принципов:
+      </p>
+      <ul>
+        <li>Данные о детях (имя, возраст, прогресс) собираются <strong>только от родителей или законных представителей</strong> с их явного согласия.</li>
+        <li>Мы не собираем у детей данные напрямую — ни через сайт, ни через приложение.</li>
+        <li>Данные о ребёнке используются исключительно для организации учебного процесса и отображения прогресса в родительском приложении.</li>
+        <li>Мы не публикуем фото или видео детей без письменного разрешения родителей.</li>
+        <li>Если вы считаете, что данные о вашем ребёнке были получены без вашего согласия — немедленно свяжитесь с нами.</li>
+      </ul>
+    </div>
+
+    <!-- 9 -->
+    <div class="section" id="s9">
+      <div class="section-num"><span class="dot"></span> Раздел 9</div>
+      <h2>Cookie и аналитика</h2>
+      <p>
+        Наш сайт использует файлы cookie — небольшие текстовые файлы, сохраняемые
+        в вашем браузере. Они помогают нам улучшать сервис и запоминать ваши предпочтения.
+      </p>
+      <table class="data-table">
+        <thead>
+          <tr><th>Тип cookie</th><th>Назначение</th><th>Срок</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Необходимые</strong></td><td>Работа сайта, безопасность сессии</td><td>Сессия</td></tr>
+          <tr><td><strong>Функциональные</strong></td><td>Запоминание выбора пользователя (язык, возраст)</td><td>12 месяцев</td></tr>
+          <tr><td><strong>Аналитические</strong></td><td>Анонимная статистика посещений (Яндекс.Метрика)</td><td>24 месяца</td></tr>
+        </tbody>
+      </table>
+      <p>Вы можете в любой момент отключить cookie в настройках браузера. Это может ограничить часть функций сайта.</p>
+    </div>
+
+    <!-- 10 -->
+    <div class="section" id="s10">
+      <div class="section-num"><span class="dot"></span> Раздел 10</div>
+      <h2>Изменения политики</h2>
+      <p>
+        Мы можем обновлять настоящую Политику конфиденциальности. При существенных
+        изменениях мы уведомим вас по e-mail или через приложение не менее чем за
+        <strong>14 дней</strong> до вступления изменений в силу.
+      </p>
+      <p>
+        Актуальная версия всегда доступна на этой странице. Дата последнего обновления
+        указана в верхней части документа.
+      </p>
+      <p>
+        Продолжая использовать наши услуги после вступления изменений в силу, вы
+        принимаете обновлённую Политику.
+      </p>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Baby <span>Tennis</span> 🎾</div>
+  <p>Программа большого тенниса для детей от 3 лет. Алматы и Астана.</p>
+  <div class="f-links">
+    <a href="index.html">Главная</a>
+    <a href="#">Программы</a>
+    <a href="#">Контакты</a>
+    <a href="privacy.html">Политика конфиденциальности</a>
+  </div>
+  <p style="margin-top: 20px;">© 2026 Baby Tennis · ТОО «Беби Теннис»</p>
+</footer>
+
+</body>
+</html>
