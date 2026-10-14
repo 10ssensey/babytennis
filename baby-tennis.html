@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Baby Tennis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--lime:#CDEB45;--lime-deep:#B6D633;--lime-soft:#EEF8BF;--green:#14A05A;--green-deep:#0E7B44;--green-soft:#D9F4E4;--clay:#ED7A3C;--blue:#2F8FD6;--sun:#FFC53A;--canvas:#FFF7E8;--soft:#FFEBCF;--card:#fff;--strong:#FFE0B8;--hair:#F3E0BF;--hair2:#E6CE9F;--ink:#2A3A2F;--body:#5A6358;--muted:#756E5A;--on-lime:#1B3409;--tagc:#0E7B44;--sh:0 10px 26px rgba(120,80,20,.12);--ease:cubic-bezier(.34,1.56,.64,1);--fd:'Fredoka','Nunito',system-ui,sans-serif;--fb:'Nunito',system-ui,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--canvas:#1F2347;--soft:#292E5C;--card:#313769;--strong:#3C4380;--hair:#444C8C;--hair2:#5862A8;--ink:#FFF7E8;--body:#DADDF3;--muted:#AEB3E0;--green-soft:#235A55;--lime-soft:#3B4786;--green:#1FAE6B;--tagc:#CDEB45;--sh:0 10px 26px rgba(0,0,0,.3);color-scheme:dark}}
+:root[data-theme="dark"]{--canvas:#1F2347;--soft:#292E5C;--card:#313769;--strong:#3C4380;--hair:#444C8C;--hair2:#5862A8;--ink:#FFF7E8;--body:#DADDF3;--muted:#AEB3E0;--green-soft:#235A55;--lime-soft:#3B4786;--green:#1FAE6B;--tagc:#CDEB45;--sh:0 10px 26px rgba(0,0,0,.3);color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;height:100%;scroll-padding-top:calc(120px + env(safe-area-inset-top,0px))}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{font-family:var(--fb);background:var(--canvas);color:var(--body);-webkit-font-smoothing:antialiased;line-height:1.55}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+svg.b{display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px;border-radius:16px;padding:13px 24px;min-height:48px;text-align:center;transition:transform .2s var(--ease),background .2s}
+.btn:active{transform:scale(.96)}
+.lime{background:var(--lime);color:var(--on-lime);box-shadow:0 10px 24px rgba(150,190,40,.35)}.lime:hover{background:var(--lime-deep)}
+.green{background:var(--green);color:#fff}.green:hover{background:var(--green-deep)}
+.line{border:1.5px solid var(--hair2);color:var(--ink)}.line:hover{border-color:var(--ink)}
+.block{width:100%}
+h1,h2,h3{font-family:var(--fd);font-weight:600;color:var(--ink)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--canvas) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair)}
+.lang{background:var(--lime);color:var(--on-lime)}
+.lang .wrap{display:flex;justify-content:flex-end;align-items:center;gap:6px;height:38px}
+.lang button{font-size:13.5px;font-weight:700;padding:5px 12px;border-radius:999px;color:inherit;opacity:.75;min-height:28px}
+.lang button:hover{opacity:1}.lang button[aria-pressed="true"]{background:#fff;color:var(--on-lime);opacity:1;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.nav{height:66px;display:flex;align-items:center;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--fd);font-weight:600;font-size:23px;letter-spacing:-.5px;color:var(--ink)}.logo i{font-style:normal;color:var(--green)}
+.links{display:flex;gap:4px;margin-left:8px}.links a{font-weight:700;font-size:15px;padding:8px 14px;border-radius:999px;white-space:nowrap}.links a:hover{background:var(--strong)}
+.nav .btn{margin-left:auto;min-height:42px;padding:9px 18px;font-size:15px}
+.hero{padding:56px 0 72px;background:linear-gradient(180deg,var(--soft),var(--canvas))}
+.hg{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--tagc);background:var(--green-soft);padding:7px 14px;border-radius:999px}
+.hero h1{font-size:clamp(36px,5.6vw,58px);line-height:1.05;letter-spacing:-1.2px;margin:20px 0 16px}
+.lead{font-size:19px;max-width:480px}
+.cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
+.pts{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:26px;font-weight:700;font-size:14.5px;color:var(--ink)}
+.pts span{display:flex;align-items:center;gap:8px}.pts svg{color:var(--green)}
+.vis{position:relative;background:var(--lime-soft);border-radius:36px;aspect-ratio:1/1.05;overflow:hidden}
+.vis .b1{position:absolute;right:-50px;top:-50px;width:230px}.vis .b2{position:absolute;left:24px;bottom:30px;width:84px}
+.days{position:absolute;left:28px;right:28px;top:50%;transform:translateY(-50%);display:grid;grid-template-columns:1fr;gap:14px}
+.day{background:var(--card);border-radius:28px;padding:36px 26px;text-align:center;box-shadow:var(--sh)}
+.day b{display:block;font-family:var(--fd);font-size:clamp(28px,3.6vw,40px);color:var(--ink);line-height:1.15;letter-spacing:-.5px}
+.day small{display:block;margin-top:8px;font-weight:700;color:var(--muted)}
+.sec{padding:80px 0}.alt{background:var(--soft)}
+.head{text-align:center;max-width:660px;margin:0 auto 44px}
+.head h2{font-size:clamp(28px,4.5vw,42px);line-height:1.1;letter-spacing:-.8px}
+.head p{font-size:18px;margin-top:12px}
+.progs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.prog{border-radius:28px;padding:30px;position:relative;overflow:hidden;min-height:220px}
+.prog h3{font-size:36px;letter-spacing:-.8px;margin-bottom:10px;color:inherit}
+.prog p{font-size:16px;max-width:92%;position:relative}
+.prog.w{color:#fff}.prog.d{color:#14271C}
+.prog::after{content:'';position:absolute;right:-30px;bottom:-30px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.18)}
+.price{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;max-width:860px;margin:0 auto;align-items:stretch}
+.tier{background:var(--card);border:1px solid var(--hair);border-radius:28px;padding:34px;display:flex;flex-direction:column}
+.tier.f{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 10px 24px rgba(20,160,90,.3)}
+.tier .n{font-weight:800;font-size:15px;color:var(--muted)}.tier.f .n{color:var(--lime)}
+.tier .p{font-family:var(--fd);font-weight:600;color:var(--ink);margin:12px 0 2px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.tier .p small{font-size:20px;font-weight:500;font-family:var(--fb);opacity:.75}.tier .p b{font-size:46px;letter-spacing:-1px;line-height:1.05}
+html[lang="kk"] .tier .p small{order:2}
+.tier.f .p{color:#fff}
+.tier .u{font-size:15px;color:var(--muted)}.tier.f .u{color:rgba(255,255,255,.85)}
+.tier ul{list-style:none;margin:24px 0;display:grid;gap:12px;flex:1}
+.tier li{display:flex;gap:10px;align-items:flex-start;font-size:15.5px}
+.tier li svg{flex:none;margin-top:3px;color:var(--green)}.tier.f li svg{color:var(--lime)}
+.badge{align-self:flex-start;background:var(--lime);color:var(--on-lime);font-weight:800;font-size:13px;padding:5px 12px;border-radius:999px;margin-bottom:14px}
+.note{text-align:center;margin:26px auto 0;max-width:560px;font-size:15px;color:var(--muted)}
+.why{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;max-width:820px;margin:0 auto}
+.why .ic{width:54px;height:54px;border-radius:20px;display:grid;place-items:center;margin-bottom:14px}
+.why h3{font-family:var(--fb);font-weight:800;font-size:18px;margin-bottom:6px}.why p{font-size:15px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:s}
+.step{background:var(--card);border:1px solid var(--hair);border-radius:20px;padding:26px}
+.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--lime);color:var(--on-lime);font-family:var(--fd);font-weight:600;font-size:20px;margin-bottom:14px}
+.step h3{font-family:var(--fb);font-weight:800;font-size:18px;margin-bottom:4px}
+.band{background:var(--lime-soft);border-radius:36px;padding:60px 28px;text-align:center;position:relative;overflow:hidden;margin-top:56px}
+.band h2{font-size:clamp(28px,4.5vw,44px);line-height:1.08;letter-spacing:-1px;max-width:600px;margin:0 auto 14px}
+.band p{font-size:18px;margin:0 auto 26px;max-width:520px}
+.band svg{position:absolute}.band .l{left:-40px;bottom:-40px;width:150px}.band .r{right:-30px;top:-30px;width:105px}
+.band .btn{position:relative}
+footer{background:var(--soft);border-top:1px solid var(--hair);padding:56px 0 36px}
+.fg{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+footer h4{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:12px;letter-spacing:.3px}
+footer ul{list-style:none;display:grid;gap:9px;font-size:15px}footer ul a:hover{color:var(--green)}
+footer .d{font-size:15px;color:var(--muted);max-width:300px;margin-top:12px}
+.fb{margin-top:34px;padding-top:20px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.mb{position:fixed;inset:0;background:rgba(20,39,28,.5);backdrop-filter:blur(4px);display:none;place-items:center;z-index:100;padding:24px}
+.mb.on{display:grid}
+.m{background:var(--canvas);border-radius:28px;padding:30px;width:100%;max-width:440px;position:relative;max-height:100%;overflow:auto;animation:pop .32s var(--ease)}
+@keyframes pop{from{transform:scale(.92) translateY(10px);opacity:0}}
+.m h3{font-size:28px;letter-spacing:-.5px;padding-right:40px}.m .s{margin:6px 0 20px}
+.x{position:absolute;right:16px;top:16px;width:36px;height:36px;border-radius:50%;background:var(--strong);display:grid;place-items:center;color:var(--ink)}
+.fl{margin-bottom:16px}.fl label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.in{width:100%;font:16px var(--fb);color:var(--ink);background:var(--card);border:1.5px solid var(--hair2);border-radius:16px;padding:12px 16px;min-height:48px}
+.in:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px var(--green-soft)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{flex:1;min-width:96px;text-align:center;padding:11px 8px;border-radius:16px;border:1.5px solid var(--hair2);font-weight:700;font-size:14px;color:var(--ink);transition:all .2s}
+.chip.on{background:var(--green);border-color:var(--green);color:#fff}
+.err{display:none;color:#E8503C;font-size:14px;font-weight:700;margin:-4px 0 12px}.ok{text-align:center;display:none}.ok svg{margin:0 auto 14px}
+@media (max-width:900px){.hg,.progs,.price,.why,.steps,.fg{grid-template-columns:1fr}.links{display:none}.vis{aspect-ratio:1/.8}}
+@media (max-width:520px){.why{grid-template-columns:1fr}.wrap{padding:0 18px}.tier{padding:26px}.lang .wrap{justify-content:center}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ball" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#CDEB45" stroke="#B6D633" stroke-width="2"/><path d="M9 14c13 6 17 30 4 40M55 10C41 20 41 44 53 52" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></symbol>
+<symbol id="chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
+<div class="top">
+  <div class="lang"><div class="wrap" role="group" aria-label="Language">
+    <button data-lang="kk" aria-pressed="false">Қазақша</button><button data-lang="ru" aria-pressed="true">Русский</button><button data-lang="en" aria-pressed="false">English</button>
+  </div></div>
+  <nav><div class="wrap nav">
+    <a class="logo" href="#top"><svg class="b" width="36" height="36"><use href="#ball"/></svg><span>Baby<i> Tennis</i></span></a>
+    <div class="links"><a href="#programs" data-i="nav_prog"></a><a href="#pricing" data-i="nav_price"></a><a href="#how" data-i="nav_how"></a><a href="#contacts" data-i="nav_contact"></a></div>
+    <button class="btn lime" data-book data-i="book"></button>
+  </div></nav>
+</div>
+
+<header class="hero" id="top"><div class="wrap hg">
+  <div>
+    <span class="tag"><svg class="b" width="16" height="16"><use href="#ball"/></svg><span data-i="tag"></span></span>
+    <h1 data-i="h1"></h1>
+    <p class="lead" data-i="lead"></p>
+    <div class="cta"><button class="btn lime" data-book data-i="cta1"></button><a class="btn line" href="#pricing" data-i="cta2"></a></div>
+    <div class="pts"><span><svg width="18" height="18"><use href="#chk"/></svg><span data-i="pt1"></span></span><span><svg width="18" height="18"><use href="#chk"/></svg><span data-i="pt2"></span></span></div>
+  </div>
+  <div class="vis" aria-hidden="true">
+    <svg class="b b1"><use href="#ball"/></svg><svg class="b b2"><use href="#ball"/></svg>
+    <div class="days"><div class="day"><b data-i="win"></b></div></div>
+  </div>
+</div></header>
+
+<section class="sec alt" id="programs"><div class="wrap">
+  <div class="head"><h2 data-i="pg_h"></h2><p data-i="pg_p"></p></div>
+  <div class="progs">
+    <div class="prog w" style="background:var(--clay)"><h3 data-i="a1"></h3><p data-i="d1"></p></div>
+    <div class="prog d" style="background:var(--sun)"><h3 data-i="a2"></h3><p data-i="d2"></p></div>
+    <div class="prog w" style="background:var(--blue)"><h3 data-i="a3"></h3><p data-i="d3"></p></div>
+  </div>
+</div></section>
+
+<section class="sec" id="pricing"><div class="wrap">
+  <div class="head"><h2 data-i="pr_h"></h2></div>
+  <div class="price">
+    <div class="tier f">
+      <span class="badge" data-i="g_badge"></span>
+      <span class="n" data-i="g_name"></span>
+      <div class="p"><small data-i="from"></small><b>3 000 ₸</b></div>
+      <div class="u" data-i="unit"></div>
+      <ul>
+        <li><svg width="20" height="20"><use href="#chk"/></svg><span data-i="g1"></span></li>
+        <li><svg width="20" height="20"><use href="#chk"/></svg><span data-i="g2"></span></li>
+        <li><svg width="20" height="20"><use href="#chk"/></svg><span data-i="g3"></span></li>
+        <li><svg width="20" height="20"><use href="#chk"/></svg><span data-i="g4"></span></li>
+      </ul>
+      <button class="btn lime block" data-book data-i="cta1"></button>
+    </div>
+    <div class="tier">
+      <span class="badge" data-i="i_badge"></span>
+      <span class="n" data-i="i_name"></span>
+      <div class="p"><small data-i="from"></small><b>5 000 ₸</b></div>
+      <div class="u" data-i="unit"></div>
+      <ul>
+        <li><svg width="20" height="20"><use href="#chk"/></svg><span data-i="i1"></span></li>
+        <li><svg width="20" height="20"><use href="#chk"/></svg><span data-i="i2"></span></li>
+        <li><svg width="20" height="20"><use href="#chk"/></svg><span data-i="i3"></span></li>
+        <li><svg width="20" height="20"><use href="#chk"/></svg><span data-i="i4"></span></li>
+      </ul>
+      <button class="btn line block" data-book data-i="i_btn"></button>
+    </div>
+  </div>
+  <p class="note" data-i="note"></p>
+</div></section>
+
+<section class="sec alt" id="why"><div class="wrap">
+  <div class="head"><h2 data-i="why_h"></h2><p data-i="why_p"></p></div>
+  <div class="why">
+    <div><div class="ic" style="background:#DCEDF9;color:var(--blue)"><svg width="26" height="26"><use href="#chk"/></svg></div><h3 data-i="w3h"></h3><p data-i="w3p"></p></div>
+    <div><div class="ic" style="background:#FFF1CC;color:#b8841a"><svg width="26" height="26"><use href="#chk"/></svg></div><h3 data-i="w4h"></h3><p data-i="w4p"></p></div>
+  </div>
+</div></section>
+
+<section class="sec" id="how"><div class="wrap">
+  <div class="head"><h2 data-i="how_h"></h2></div>
+  <div class="steps">
+    <div class="step"><h3 data-i="s1h"></h3><p data-i="s1p"></p></div>
+    <div class="step"><h3 data-i="s2h"></h3><p data-i="s2p"></p></div>
+    <div class="step"><h3 data-i="s3h"></h3><p data-i="s3p"></p></div>
+  </div>
+  <div class="band">
+    <svg class="b l"><use href="#ball"/></svg><svg class="b r"><use href="#ball"/></svg>
+    <h2 data-i="band_h"></h2><p data-i="band_p"></p>
+    <button class="btn green" data-book data-i="cta1"></button>
+  </div>
+</div></section>
+
+<footer id="contacts"><div class="wrap">
+  <div class="fg">
+    <div><a class="logo" href="#top"><svg class="b" width="36" height="36"><use href="#ball"/></svg><span>Baby<i> Tennis</i></span></a><p class="d" data-i="f_desc"></p></div>
+    <div><h4 data-i="f_sec"></h4><ul><li><a href="#programs" data-i="nav_prog"></a></li><li><a href="#pricing" data-i="nav_price"></a></li><li><a href="#how" data-i="nav_how"></a></li></ul></div>
+    <div><h4 data-i="f_cont"></h4><ul><li><a href="tel:+77073839773">8 707 383 9773</a></li><li data-i="city"></li><li>Instagram · Telegram</li></ul></div>
+  </div>
+  <div class="fb"><span>© 2026 Baby Tennis</span><span data-i="made"></span></div>
+</div></footer>
+
+<div class="mb" id="mb" role="dialog" aria-modal="true"><div class="m">
+  <button class="x" id="mx" aria-label="×"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+  <div id="f1">
+    <h3 data-i="m_h"></h3><p class="s" data-i="m_s"></p>
+    <div class="fl"><label for="nm" data-i="m_name"></label><input class="in" id="nm" data-ph="m_nph"></div>
+    <div class="fl"><label data-i="m_age"></label><div class="chips" id="ag"><button class="chip on" data-v="3–5 лет" data-i="c1"></button><button class="chip" data-v="6–8 лет" data-i="c2"></button><button class="chip" data-v="9–12 лет" data-i="c3"></button></div></div>
+    <div class="fl"><label data-i="m_fmt"></label><div class="chips" id="fm"><button class="chip on" data-v="Группа по выходным" data-i="f_g"></button><button class="chip" data-v="Индивидуальные занятия" data-i="f_i"></button></div></div>
+    <div class="fl"><label for="ph" data-i="m_phone"></label><input class="in" id="ph" type="tel" placeholder="+7 707 000 00 00"></div>
+    <p class="err" id="err" role="alert"></p>
+    <button class="btn lime block" id="go" data-i="cta1"></button>
+  </div>
+  <div class="ok" id="ok"><svg class="b" width="72" height="72"><use href="#ball"/></svg><h3 data-i="ok_h" style="padding:0"></h3><p class="s" data-i="ok_t"></p><button class="btn green block" id="ok2" data-i="ok_b"></button></div>
+</div></div>
+
+<script>
+(function(){
+var T={
+title:["Baby Tennis — теннис для детей от 3 лет","Baby Tennis — 3 жастан бастап балаларға арналған теннис","Baby Tennis — tennis for kids from age 3"],
+nav_prog:["Программы","Бағдарламалар","Programs"],nav_price:["Цены","Бағалар","Prices"],nav_how:["Как начать","Қалай бастау керек","How to start"],nav_contact:["Контакты","Байланыс","Contacts"],
+book:["Записаться","Жазылу","Sign up"],
+tag:["Теннис для детей от 3 лет","3 жастан бастап балаларға арналған теннис","Tennis for kids from age 3"],
+h1:["Большой теннис для самых маленьких","Ең кішкентайларға арналған үлкен теннис","Big tennis for the smallest players"],
+lead:["Группы по выходным: суббота и воскресенье. Индивидуальные занятия ежедневно. Учимся играть через движение, игру и много улыбок.","Топтар демалыс күндері: сенбі және жексенбі. Жеке сабақтар күн сайын. Қимыл, ойын және көп күлкі арқылы ойнауды үйренеміз.","Group classes on weekends, private lessons every day. We learn to play through movement, games and lots of smiles."],
+cta1:["Записаться на пробное","Сынақ сабағына жазылу","Book a trial class"],cta2:["Посмотреть цены","Бағаларды көру","See prices"],
+pt1:["Группы до 6 детей","Топта 6 балаға дейін","Groups of up to 6 kids"],pt2:["Тренеры с детским образованием","Балалармен жұмыс білімі бар жаттықтырушылар","Coaches trained to work with kids"],
+win:["Учим побеждать с первых шагов","Алғашқы қадамнан жеңуге үйретеміз","Teaching to win from the very first steps"],sat:["Сб","Сб","Sat"],satf:["Играем и смеёмся","Ойнап, күлеміз","Play and laugh"],sun:["Вс","Жс","Sun"],sunf:["Растём и побеждаем","Өсіп, жеңеміз","Grow and win"],
+pg_h:["Программы по возрасту","Жас бойынша бағдарламалар","Programs by age"],
+pg_p:["У каждой группы свой ритм. Подберём подходящую для вашего ребёнка.","Әр топтың өз ырғағы бар. Балаңызға лайықтысын таңдап береміз.","Every group has its own pace. We'll find the right one for your child."],
+a1:["3–5 лет","3–5 жас","Ages 3–5"],a2:["6–8 лет","6–8 жас","Ages 6–8"],a3:["9–12 лет","9–12 жас","Ages 9–12"],
+d1:["Знакомство с ракеткой через игры, ловкость и координацию. Без стресса и нагрузок.","Ракеткамен ойын, ептілік және үйлестіру арқылы танысу. Стресссіз, артық жүктемесіз.","Meeting the racket through games, agility and coordination. No stress, no pressure."],
+d2:["Первые удары, подачи и любимая игра. Учимся технике в радость и с азартом.","Алғашқы соққылар, подачалар және сүйікті ойын. Техниканы қуана, құлшына үйренеміз.","First strokes, serves and a favorite game. We learn technique with joy and excitement."],
+d3:["Полноценная игра, тактика и первые турниры. Для тех, кто влюбился в теннис.","Толыққанды ойын, тактика және алғашқы турнирлер. Теннисті жақсы көріп қалғандарға арналған.","Full games, tactics and first tournaments. For those who have fallen in love with tennis."],
+pr_h:["Первое пробное занятие — бесплатно","Алғашқы сынақ сабағы — тегін","Your first trial class is free"],
+from:["от","бастап","from"],unit:["за занятие","бір сабақ үшін","per class"],
+g_badge:["Группы по выходным","Демалыс күндеріндегі топтар","Weekend groups"],g_name:["Групповые занятия","Топтық сабақтар","Group classes"],
+g1:["Суббота и воскресенье","Сенбі және жексенбі","Saturday and Sunday"],g2:["Группа до 6 детей","Топта 6 балаға дейін","Up to 6 kids per group"],g3:["Инвентарь включён","Жабдық бағаға кіреді","Equipment included"],
+g4:["Группы по возрасту: 3–5, 6–8, 9–12 лет","Жас бойынша топтар: 3–5, 6–8, 9–12 жас","Age groups: 3–5, 6–8, 9–12"],
+i_badge:["Ежедневно","Күн сайын","Every day"],i_name:["Индивидуальные занятия","Жеке сабақтар","Private lessons"],
+i1:["Занятия каждый день","Сабақтар күн сайын","Classes every day"],i2:["Один на один с тренером","Жаттықтырушымен жеке","One-on-one with a coach"],
+i3:["Время подбираем под вас","Уақытты өзіңізге ыңғайлы етіп таңдаймыз","Flexible time that suits you"],i4:["Персональный план развития","Жеке даму жоспары","Personal development plan"],
+i_btn:["Узнать подробности","Толығырақ білу","Learn more"],
+note:["Точную стоимость и формат оплаты подскажем при записи на пробное.","Нақты құны мен төлем форматын сынақ сабағына жазылғанда айтамыз.","We'll tell you the exact price and payment format when you book the trial."],
+why_h:["Почему родители выбирают нас","Ата-аналар бізді неге таңдайды","Why parents choose us"],
+why_p:["Место, куда хочется возвращаться — и детям, и родителям.","Балаларға да, ата-аналарға да қайта оралғысы келетін орын.","A place kids and parents want to come back to."],
+w1h:["Безопасно","Қауіпсіз","Safe"],w1p:["Тренеры с детским образованием и мягкий инвентарь для малышей.","Балалармен жұмыс білімі бар жаттықтырушылар және кішкентайларға арналған жұмсақ жабдық.","Coaches trained to work with kids and soft equipment for little ones."],
+w2h:["Маленькие группы","Шағын топтар","Small groups"],w2p:["До 6 детей в группе: каждому хватает внимания и времени на корте.","Топта 6 балаға дейін: әрқайсысына назар мен корттағы уақыт жеткілікті.","Up to 6 kids per group: everyone gets attention and court time."],
+w3h:["Удобные выходные","Ыңғайлы демалыс күндері","Easy weekends"],w3p:["Занятия по выходным превращают обычные дни отдыха в яркие: ребёнок заряжается энергией, а вся семья — хорошим настроением.","Демалыс күнгі сабақтар қарапайым күндерді жарқын етеді: бала қуатқа, бүкіл отбасы жақсы көңіл-күйге бөленеді.","Weekend classes turn ordinary days off into bright ones: your child gets a burst of energy and the whole family a great mood."],
+w4h:["Через игру","Ойын арқылы","Through play"],w4p:["Дети учатся, играя, и сами просятся на тренировку.","Балалар ойнап үйренеді және жаттығуға өздері сұранады.","Kids learn by playing and ask to come to practice themselves."],
+how_h:["Как начать","Қалай бастау керек","How to start"],
+s1h:["Оставьте заявку","Өтінім қалдырыңыз","Leave a request"],s1p:["Имя ребёнка, возраст и телефон. Это занимает минуту.","Баланың аты, жасы және телефон нөмірі. Бір минут алады.","Child's name, age and phone number. It takes a minute."],
+s2h:["Приходите на пробное","Сынақ сабағына келіңіз","Come to the trial"],s2p:["Бесплатно. Тренер познакомится с ребёнком и подберёт группу.","Тегін. Жаттықтырушы баламен танысып, топ таңдайды.","Free. The coach will meet your child and pick a group."],
+s3h:["Выберите формат","Форматты таңдаңыз","Choose a format"],s3p:["Группа по выходным или индивидуальные занятия.","Демалыс күндеріндегі топ немесе жеке сабақтар.","A weekend group or private lessons."],
+band_h:["Первое занятие — бесплатно","Алғашқы сабақ — тегін","The first class is free"],
+band_p:["Запишите ребёнка на пробное и посмотрите, как загорятся его глаза.","Баланы сынақ сабағына жазып, оның көзі қалай жайнайтынын көріңіз.","Sign your child up for a trial and watch their eyes light up."],
+f_desc:["Теннис для детей от 3 лет. Группы по выходным, индивидуальные занятия ежедневно.","3 жастан бастап балаларға арналған теннис. Топтар демалыс күндері, жеке сабақтар күн сайын.","Tennis for kids from age 3. Weekend groups, private lessons every day."],
+f_sec:["Разделы","Бөлімдер","Sections"],f_cont:["Контакты","Байланыс","Contacts"],city:["Астана","Астана","Astana"],
+made:["Сделано с заботой о юных чемпионах","Жас чемпиондарға қамқорлықпен жасалған","Made with care for young champions"],
+m_h:["Пробное занятие","Сынақ сабағы","Trial class"],m_s:["Бесплатно. Перезвоним в течение часа.","Тегін. Бір сағат ішінде қоңырау шаламыз.","Free. We'll call you back within an hour."],
+m_name:["Имя ребёнка","Баланың аты","Child's name"],m_nph:["Например, Алия","Мысалы, Әлия","E.g., Aliya"],m_age:["Возраст","Жасы","Age"],
+c1:["3–5 лет","3–5 жас","3–5 yrs"],c2:["6–8 лет","6–8 жас","6–8 yrs"],c3:["9–12 лет","9–12 жас","9–12 yrs"],
+m_fmt:["Формат","Формат","Format"],f_g:["Группа","Топ","Group"],f_i:["Индивидуально","Жеке","Private"],m_phone:["Телефон","Телефон","Phone"],
+ok_h:["Готово! 🎾","Дайын! 🎾","Done! 🎾"],ok_t:["Заявка принята. Скоро перезвоним и подберём удобное время.","Өтінім қабылданды. Жақында қоңырау шалып, ыңғайлы уақытты таңдаймыз.","Request received. We'll call you soon and find a convenient time."],ok_b:["Отлично","Керемет","Great"],
+err_req:["Укажите имя ребёнка и телефон.","Баланың атын және телефон нөмірін көрсетіңіз.","Please enter your child's name and phone number."],
+err_send:["Не удалось отправить заявку. Позвоните нам: 8 707 383 9773.","Өтінімді жіберу мүмкін болмады. Бізге қоңырау шалыңыз: 8 707 383 9773.","Could not send your request. Please call us: 8 707 383 9773."],
+sending:["Отправляем…","Жіберілуде…","Sending…"]
+};
+var L=['ru','kk','en'],H=document.documentElement;
+function set(l){
+  var k=L.indexOf(l);if(k<0){l='ru';k=0}
+  H.lang=l;document.title=T.title[k];
+  document.querySelectorAll('[data-i]').forEach(function(e){e.textContent=T[e.dataset.i][k]});
+  document.querySelectorAll('[data-ph]').forEach(function(e){e.placeholder=T[e.dataset.ph][k]});
+  document.querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lang===l)});
+  try{localStorage.setItem('bt-lang',l)}catch(e){}
+}
+var s=null;try{s=localStorage.getItem('bt-lang')}catch(e){}
+if(!s){var n=(navigator.language||'ru').slice(0,2);s=n==='kk'?'kk':n==='en'?'en':'ru'}
+document.querySelectorAll('[data-lang]').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.lang)})});
+set(s);
+var mb=document.getElementById('mb'),f1=document.getElementById('f1'),ok=document.getElementById('ok');
+function open(){f1.style.display='';ok.style.display='none';mb.classList.add('on')}
+function close(){mb.classList.remove('on')}
+document.querySelectorAll('[data-book]').forEach(function(b){b.addEventListener('click',open)});
+document.getElementById('mx').addEventListener('click',close);
+document.getElementById('ok2').addEventListener('click',close);
+mb.addEventListener('click',function(e){if(e.target===mb)close()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+['ag','fm'].forEach(function(id){var g=document.getElementById(id);g.addEventListener('click',function(e){var c=e.target.closest('.chip');if(!c)return;g.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on')});c.classList.add('on')})});
+/* ====== TELEGRAM: впишите два значения ниже ====== */
+var BOT_TOKEN='8819487544:AAGYK_3MsWvV2NyhOAw2YNmJ7oYCBCvVpJ4';   // токен от @BotFather, вида 123456:ABC-DEF...
+var CHAT_ID='7339667637';       // ваш chat_id (или id группы, например -1001234567890)
+/* ================================================= */
+var go=document.getElementById('go'),err=document.getElementById('err');
+function showErr(key){err.textContent=T[key][L.indexOf(H.lang)];err.style.display='block'}
+go.addEventListener('click',function(){
+  err.style.display='none';
+  var name=document.getElementById('nm').value.trim(),phone=document.getElementById('ph').value.trim();
+  if(!name||phone.replace(/\D/g,'').length<10){showErr('err_req');return}
+  var age=document.querySelector('#ag .on').dataset.v,fmt=document.querySelector('#fm .on').dataset.v;
+  var text='🎾 Новая заявка на пробное\n\nИмя ребёнка: '+name+'\nВозраст: '+age+'\nФормат: '+fmt+'\nТелефон: '+phone+'\nЯзык сайта: '+H.lang;
+  go.disabled=true;go.textContent=T.sending[L.indexOf(H.lang)];
+  fetch('https://api.telegram.org/bot'+BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:text})})
+  .then(function(r){return r.json()})
+  .then(function(d){if(!d.ok)throw new Error(d.description);f1.style.display='none';ok.style.display='block';document.getElementById('nm').value='';document.getElementById('ph').value=''})
+  .catch(function(e){console.error('Telegram error:',e);showErr('err_send')})
+  .then(function(){go.disabled=false;go.textContent=T.cta1[L.indexOf(H.lang)]});
+});
+})();
+</script>
+</body>
+</html>
